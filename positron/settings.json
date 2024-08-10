@@ -1,0 +1,118 @@
+{
+    // Positron-specific settings
+    // -------------------------------------------------------------------------
+    "rstudio.keymap.enable": true,
+    "python.defaultInterpreterPath": "/opt/homebrew/bin/python3.10",
+
+
+    // Editor settings
+    // -------------------------------------------------------------------------
+    // Fonts
+    // Use GitHub's Monaspace (https://github.com/githubnext/monaspace) and enable ligatures
+    "editor.fontFamily": "Monaspace Neon",
+    "editor.fontSize": 26,
+    "terminal.integrated.fontSize": 18,
+    "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga'",
+    // "editor.fontFamily": "JetBrains Mono",// <-
+    "editor.fontWeight": "300",
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    // Theme
+    // Monakai would be nice, but it has issues in Positron
+    // "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "Default Dark Modern",
+
+    // Use nicer icons
+    "workbench.productIconTheme": "fluent-icons",
+    "workbench.iconTheme": "material-icon-theme",
+
+    // Highlight modified/unsaved tabs
+    "workbench.editor.highlightModifiedTabs": true,
+
+
+    // Indent with two spaces, but only for R
+    "[r]": {
+        "editor.tabSize": 2
+    },
+
+    // Nicer handling of end-of-document newlines, via
+    // https://rfdonnelly.github.io/posts/sane-vscode-whitespace-settings/
+    "files.insertFinalNewline": true,
+    "editor.renderFinalNewline": "dimmed",
+    "editor.renderWhitespace": "trailing",
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+
+    // Various editor settings
+    "editor.formatOnPaste": true,
+    "editor.detectIndentation": false,
+    "editor.showFoldingControls": "always",
+    "window.newWindowDimensions": "inherit",
+    "editor.scrollBeyondLastLine": false,
+    "window.title": "${activeEditorFull}${separator}${rootName}",
+    "editor.tabSize": 2,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 80,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.snippetSuggestions": "top",
+    "zenMode.fullScreen": false,
+
+    // Hide things from the global search menu and watcher
+    "files.exclude": {
+        "**/.Rhistory": true,
+        "**/**.Rproj": true,
+        "**/**.log": true,
+        "**/**.blg": true,
+        "**/**.bbl": true,
+        "**/**.glg": true,
+        "**/**.glo": true,
+        "**/**.gls": true,
+        "**/**.ist": true,
+        "**/.Rproj": true,
+        "**/.Rproj.user": true,
+        "**/renv/library": true,
+        "**/renv/local": true,
+        "**/renv/staging": true
+    },
+    "files.watcherExclude": {
+        "**/.Rproj/*": true,
+        "**/renv/library": true,
+        "**/renv/local": true,
+        "**/renv/staging": true
+    },
+
+    // Sign git commits
+    "git.enableCommitSigning": true,
+
+
+    // Extension-specific settings
+    // -------------------------------------------------------------------------
+    // Markdown linting settings (idk if this stuff even works with Quarto though)
+    "markdownlint.config": {
+        "default": true,
+        "MD012": { "maximum": 2 },
+        "MD025": false,
+        "MD041": false
+    },
+
+    // Wrap at 80 columns with the "Rewrap" extension
+    "rewrap.autoWrap.enabled": true,
+    "rewrap.wholeComment": true,
+    // "rewrap.wrappingColumn": 72,
+    // Add some rulers
+    "editor.rulers": [
+        80,
+        100
+    ],
+    // // Hacky "Open Remote - SSH" settings
+    // "remote.SSH.serverDownloadUrlTemplate": "https://github.com/gitpod-io/openvscode-server/releases/download/openvscode-server-v${version}/openvscode-server-v${version}-${os}-${arch}.tar.gz",
+    // "remote.SSH.experimental.serverBinaryName": "openvscode-server",
+
+    // Don't phone home for the "YAML" extension
+    "redhat.telemetry.enabled": false,
+
+    // Bracket coloring
+    "bracket-pair-colorizer-2.colors": ["Gold", "Orchid", "LightSkyBlue"],
+    "terminal.integrated.inheritEnv": false,
+    "workbench.editor.enablePreview": false,
+    "security.workspace.trust.untrustedFiles": "open"
+}
