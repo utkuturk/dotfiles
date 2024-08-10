@@ -1,14 +1,13 @@
 {
   "window.nativeTabs": true,
   "editor.unicodeHighlight.ambiguousCharacters": false,
-  "editor.fontFamily": "Hack Nerd Font Mono, Fira Code, Victor Mono, Iosevka Term, Cascadia Mono PL, UbuntuMono Nerd Font, Cascadia Code PL, VictorMono-Light, Monaco, JetBrains Mono NL, Monoid-Retina, Iosevka, SF Mono",
+  "editor.fontFamily": "VictorMono-Light, Iosevka, Monaco, Operator Mono, Fira Code, Cascadia Mono PL, Hack Nerd Font Mono, Victor Mono, Iosevka Term, UbuntuMono Nerd Font, Cascadia Code PL, JetBrains Mono NL, Monoid-Retina, SF Mono",
   "git.path": "/usr/bin/git",
   "editor.rulers": [110],
-  "editor.wordWrap": "on",
-  "editor.fontSize": 16,
+  "editor.wordWrap": "bounded",
+  "editor.fontSize": 26,
   "editor.suggestSelection": "first",
-  "editor.formatOnSaveMode": "modifications",
-  "editor.lineNumbers": "relative",
+  //"editor.lineNumbers": "relative",
   "editor.quickSuggestionsDelay": 0,
   "editor.formatOnPaste": true,
   "editor.snippetSuggestions": "top",
@@ -24,39 +23,89 @@
   "workbench.tree.renderIndentGuides": "none",
   "quarto.mathjax.theme": "dark",
   "quarto.render.renderOnSave": true,
-  "latex-workshop.latex.autoBuild.run": "never",
-  "latex-workshop.latex.autoClean.run": "onSucceeded",
   "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.outline.sync.viewer": true,
+  "latex-workshop.latex.autoClean.run": "onSucceeded",
   "latex-workshop.latex.clean.method": "glob",
-  "latex-workshop.latex.recipe.default": "first",
+  // Fix citation warnings in editor when using biber (wavy lines).
+  "latex-workshop.intellisense.citation.backend": "biblatex",
+  // Set bibliography indentation to four spaces (default: two).
+  "latex-workshop.bibtex-format.tab": "4 spaces",
+  // Avoid building PDF every time a file is modified or saved.
+  "latex-workshop.latex.autoBuild.run": "never",
+  // Sync PDF with cursor position after compiling.
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  // Automatically choose last used recipe on next build.
+  "latex-workshop.latex.recipe.default": "lastUsed",
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk",
       "tools": ["latexmk"]
     },
     {
-      "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+      "name": "latexmk -> bibtex -> latexmk*2",
+      "tools": ["latexmk", "bibtex", "latexmk", "latexmk"]
+    },
+    {
+      "name": "latexmk -> biber -> latexmk*2",
+      "tools": ["latexmk", "biber", "latexmk", "latexmk"]
+    },
+    {
+      "name": "pdflatex",
+      "tools": ["pdflatex"]
+    },
+    {
+      "name": "p -> gloss -> bibtex -> p*2",
+      "tools": ["pdflatex", "makeglossaries", "bibtex", "pdflatex", "pdflatex"]
+    },
+    {
+      "name": "p -> gloss -> biber -> p*2",
+      "tools": ["pdflatex", "makeglossaries", "biber", "pdflatex", "pdflatex"]
     },
     {
       "name": "xelatex",
       "tools": ["xelatex"]
     },
     {
-      "name": "xelatex ➞ bibtex ➞ xelatex`×2",
-      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+      "name": "x -> gloss -> bibtex -> x*2",
+      "tools": ["xelatex", "makeglossaries", "bibtex", "xelatex", "xelatex"]
     },
     {
-      "name": "texify",
-      "tools": ["texify"]
+      "name": "x -> gloss -> biber -> x*2",
+      "tools": ["xelatex", "makeglossaries", "biber", "xelatex", "xelatex"]
+    },
+    {
+      "name": "bibtex",
+      "tools": ["bibtex"]
+    },
+    {
+      "name": "biber",
+      "tools": ["biber"]
     }
   ],
   "latex-workshop.latex.tools": [
     {
-      "name": "latexmk",
-      "command": "latexmk",
       "args": [
-        "-shell-escape",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "command": "pdflatex",
+      "name": "pdflatex"
+    },
+    {
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "command": "xelatex",
+      "name": "xelatex"
+    },
+    {
+      "args": [
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
@@ -64,47 +113,23 @@
         "-outdir=%OUTDIR%",
         "%DOC%"
       ],
-      "env": {}
+      "command": "latexmk",
+      "name": "latexmk"
     },
     {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
       "args": ["%DOCFILE%"],
-      "env": {}
+      "command": "bibtex",
+      "name": "bibtex"
     },
     {
-      "name": "xelatex",
-      "command": "xelatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
+      "args": ["%DOCFILE%"],
+      "command": "biber",
+      "name": "biber"
     },
     {
-      "name": "texify",
-      "command": "texify",
-      "args": [
-        "--synctex",
-        "--pdf",
-        "--tex-option=\"-interaction=nonstopmode\"",
-        "--tex-option=\"-file-line-error\"",
-        "%DOC%.tex"
-      ],
-      "env": {}
+      "name": "makeglossaries",
+      "command": "makeglossaries",
+      "args": ["%DOCFILE%"]
     }
   ],
   "latex-workshop.latex.clean.fileTypes": [
@@ -133,9 +158,10 @@
     "*.synctex(busy)",
     "*.synctex.gz(busy)",
     "*.nav",
-    "*.vrb"
+    "*.vrb",
+    "*.ist"
   ],
-  "workbench.colorTheme": "Monokai",
+  "workbench.colorTheme": "Material Theme Darker",
   "workbench.sideBar.location": "right",
   "workbench.panel.defaultLocation": "left",
   "explorer.autoReveal": false,
@@ -149,12 +175,11 @@
   },
   "r.rterm.mac": "/Users/utkuturk/opt/miniconda3/bin/radian",
   "r.bracketedPaste": true,
-  "r.plot.useHttpgd": true,
   "terminal.integrated.fontFamily": "MesloLGS NF",
   "terminal.integrated.inheritEnv": true,
   "terminal.external.osxExec": "iTerm.app",
   "terminal.integrated.fontSize": 18,
-  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.cursorStyle": "underline",
   "terminal.integrated.scrollback": 10000,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
@@ -190,12 +215,11 @@
   "[dockercompose]": {
     "editor.tabSize": 4
   },
-  "terminal.integrated.tabs.enabled": false,
   "editor.inlineSuggest.showToolbar": "always",
   "editor.fontLigatures": true,
   "workbench.editor.showTabs": "single",
   "[latex]": {
-    "editor.defaultFormatter": "nickfode.latex-formatter"
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
   },
   "window.titleBarStyle": "native",
   "apc.electron": {
@@ -216,5 +240,21 @@
     ".custom-sidebar-titlebar .sidebar .composite.title": "padding-left: 0;", // Don't indent the sidebar title. We want it horizontally aligned to the left so that it makes a nice vertical column with the controls in the sidebar.
     ".custom-sidebar-titlebar .sidebar .composite.title .inline-titlebar-placeholder": "padding-left: 0 !important;", // Don't indent the sidebar title. Part 2 to remove the empty space to the left of the sidebar title and complete the proper horizontal left alignment.
     ".monaco-workbench .part.statusbar>.items-container>.statusbar-item.left.first-visible-item": "padding-left: 0;" // Don't indent the statusbar items. This horizontally aligns the statusbar items with the "Problems" header in the panel, which looks nice.
-  }
+  },
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "r.plot.defaults.plotPreviewLayout": "scroll",
+  "r.plot.useHttpgd": true,
+  "update.mode": "manual",
+  "r.rmarkdown.knit.openOutputFile": true,
+  "editor.cursorStyle": "block",
+  "editor.cursorBlinking": "smooth",
+  "github.copilot.editor.enableAutoCompletions": true,
+  "quarto.visualEditor.maxContentWidth": 2000,
+  "quarto.visualEditor.fontFamily": "Times New Roman",
+  "quarto.visualEditor.fontSize": 32,
+  "notebook.output.textLineLimit": 100,
+  "editor.wordWrapColumn": 110,
+  "latex-workshop.latex.watch.pdf.delay": 1000,
+  "latex-workshop.view.pdf.ref.viewer": "tabOrBrowser",
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click"
 }
